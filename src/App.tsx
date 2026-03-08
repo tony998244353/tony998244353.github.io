@@ -7,6 +7,8 @@ import contentEn from './content.en.md?raw';
 import contentJa from './content.ja.md?raw';
 import './App.css';
 
+const isDesktop = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+
 const mdRemarkPlugins = [remarkGfm];
 const mdRehypePlugins = [rehypeRaw];
 const mdComponents = {
@@ -185,7 +187,7 @@ export default function App() {
 
   return (
     <div className="app">
-      <DragonCurveCanvas scrollY={scrollY} />
+      {isDesktop && <DragonCurveCanvas scrollY={scrollY} />}
       <RingIndicator progress={offset / contentHeightRef.current} />
       <LangToggle lang={lang} onChange={setLang} />
 
