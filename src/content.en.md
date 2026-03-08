@@ -6,9 +6,9 @@
 
 ## About
 
-I'm tony, a software engineer based in Tokyo.
+This is the personal page of tony, a software engineer based in Tokyo.
 
-I'm skeptical of the Church-Turing thesis.
+Best viewed on PC.
 
 ---
 
