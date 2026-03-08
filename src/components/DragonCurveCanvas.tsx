@@ -5,7 +5,7 @@ interface Props {
   scrollY: number;
 }
 
-const SCROLL_PER_LEVEL = 500; // px per √2x zoom
+const SCROLL_PER_LEVEL = 250; // px per √2x zoom
 
 export function DragonCurveCanvas({ scrollY }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);

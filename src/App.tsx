@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
+import rehypeRaw from 'rehype-raw';
 import { DragonCurveCanvas } from './components/DragonCurveCanvas';
 import contentEn from './content.en.md?raw';
 import contentJa from './content.ja.md?raw';
@@ -22,6 +24,8 @@ function Sections({ lang }: { lang: Lang }) {
         <section className="section" key={i}>
           <div className="card" style={i === 0 ? { textAlign: 'center' } : undefined}>
             <Markdown
+              remarkPlugins={[remarkGfm]}
+              rehypePlugins={[rehypeRaw]}
               components={{
                 img: ({ node, ...props }) => <img className="avatar" {...props} />,
                 a: ({ node, ...props }) => <a target="_blank" rel="noreferrer" {...props} />,

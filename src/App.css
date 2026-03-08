@@ -100,14 +100,14 @@ body {
   flex: 1;
   height: 2px;
   border: none;
-  background: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.6);
   box-shadow: 0 0 8px rgba(255, 255, 255, 0.3);
 }
 
 .divider-label {
   font-size: 1.5rem;
   letter-spacing: 0.1em;
-  opacity: 0.7;
+  opacity: 1;
   color: #fff;
   text-shadow: 0 0 12px rgba(255, 255, 255, 0.5);
 }
@@ -144,7 +144,6 @@ body {
 .card p,
 .card li {
   line-height: 1.7;
-  opacity: 0.85;
 }
 
 .card ul {
@@ -154,6 +153,37 @@ body {
 
 .card li {
   padding: 6px 0;
+}
+
+.card table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+}
+
+.card th,
+.card td {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.card th {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.narrow-cols table {
+  table-layout: fixed;
+}
+
+.narrow-cols th:nth-child(1),
+.narrow-cols td:nth-child(1) {
+  width: 4em;
+}
+
+.narrow-cols th:nth-child(2),
+.narrow-cols td:nth-child(2) {
+  width: 3em;
 }
 
 .card a {
