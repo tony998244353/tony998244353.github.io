@@ -1,4 +1,4 @@
-const COLORS = ['#FFFFFF', '#97BE0D', '#799C13', '#FFEC00'];
+const COLORS = ['#9B1B5A', '#2E8B57', '#9B1B5A', '#2E8B57'];
 
 export interface DragonRenderer {
   render(zoom: number, angleOffset: number): void;
@@ -12,7 +12,7 @@ export function createDragonRenderer(canvas: HTMLCanvasElement): DragonRenderer 
   return {
     render(zoom: number, angleOffset: number) {
       const w = canvas.width, h = canvas.height;
-      ctx.fillStyle = '#0A1026';
+      ctx.fillStyle = '#000000';
       ctx.fillRect(0, 0, w, h);
 
       // Level is fixed (zoom wraps at √2, so levelOffset is always 0)
@@ -36,10 +36,12 @@ export function createDragonRenderer(canvas: HTMLCanvasElement): DragonRenderer 
       const cx = w / 2, cy = h / 2;
       const baseAngle = -angleOffset * Math.PI / 4;
 
-      // Draw both levels, each with 4 rotations
-      const layers = [pts0, pts1];
-      for (const pts of layers) {
-        ctx.lineWidth = 1;
+      // Crossfade between levels
+      const t = Math.log2(zoom) * 2; // [0, 1)
+      const layers: [number[], number][] = [[pts0, Math.cos(t * Math.PI / 2)], [pts1, Math.sin(t * Math.PI / 2)]];
+      for (const [pts, alpha] of layers) {
+        ctx.globalAlpha = alpha;
+        ctx.lineWidth = 3;
         for (let rot = 0; rot < 4; rot++) {
           const a = rot * Math.PI / 2 + baseAngle;
           const c = Math.cos(a), sn = Math.sin(a);
@@ -53,6 +55,7 @@ export function createDragonRenderer(canvas: HTMLCanvasElement): DragonRenderer 
           ctx.stroke();
         }
       }
+      ctx.globalAlpha = 1;
     },
 
     resize(w: number, h: number) { canvas.width = w; canvas.height = h; },
