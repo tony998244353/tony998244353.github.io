@@ -1,20 +1,37 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { createDragonRenderer } from '../lib/dragon-curve';
 
-export function DragonCurveCanvas() {
+interface Props {
+  scrollY: number;
+}
+
+const SCROLL_PER_LEVEL = 500; // px per √2x zoom
+
+export function DragonCurveCanvas({ scrollY }: Props) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rendererRef = useRef<ReturnType<typeof createDragonRenderer> | null>(null);
-  const zoomRef = useRef(1);
-  const angleOffsetRef = useRef(0);
   const rafRef = useRef(0);
 
-  const draw = useCallback(() => {
+  const draw = useCallback((sy: number) => {
     rafRef.current = 0;
-    rendererRef.current?.render(zoomRef.current, angleOffsetRef.current);
+    if (!rendererRef.current) return;
+
+    // scrollY → zoom and angleOffset
+    const levels = sy / SCROLL_PER_LEVEL; // fractional number of √2 steps
+    const angleOffset = Math.floor(levels) % 8;
+    const frac = levels - Math.floor(levels);
+    const zoom = Math.pow(Math.SQRT2, frac); // [1, √2)
+
+    rendererRef.current.render(zoom, (angleOffset + 8) % 8);
   }, []);
 
+  const scrollYRef = useRef(scrollY);
+  scrollYRef.current = scrollY;
+
   const requestDraw = useCallback(() => {
-    if (!rafRef.current) rafRef.current = requestAnimationFrame(draw);
+    if (!rafRef.current) {
+      rafRef.current = requestAnimationFrame(() => draw(scrollYRef.current));
+    }
   }, [draw]);
 
   useEffect(() => {
@@ -25,7 +42,7 @@ export function DragonCurveCanvas() {
 
     const renderer = createDragonRenderer(canvas);
     rendererRef.current = renderer;
-    draw();
+    draw(scrollY);
 
     const onResize = () => {
       renderer.resize(window.innerWidth, window.innerHeight);
@@ -38,35 +55,13 @@ export function DragonCurveCanvas() {
       window.removeEventListener('resize', onResize);
       cancelAnimationFrame(rafRef.current);
     };
-  }, [draw, requestDraw]);
+  }, [draw, requestDraw, scrollY]);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const onWheel = (e: WheelEvent) => {
-      e.preventDefault();
-      const step = Math.min(Math.abs(e.deltaY), 100) / 100 * 0.32;
-      zoomRef.current *= e.deltaY > 0 ? 1 / (1 + step) : 1 + step;
-      // Wrap: zoom cycles with period √2x, rotate 45° each wrap
-      while (zoomRef.current >= Math.SQRT2) {
-        zoomRef.current /= Math.SQRT2;
-        angleOffsetRef.current = (angleOffsetRef.current + 1) % 8;
-      }
-      while (zoomRef.current < 1) {
-        zoomRef.current *= Math.SQRT2;
-        angleOffsetRef.current = (angleOffsetRef.current + 7) % 8; // -1 mod 8
-      }
-      requestDraw();
-    };
-
-    canvas.addEventListener('wheel', onWheel, { passive: false });
-    return () => {
-      canvas.removeEventListener('wheel', onWheel);
-    };
-  }, [requestDraw]);
+    requestDraw();
+  }, [scrollY, requestDraw]);
 
   return (
-    <canvas ref={canvasRef} style={{ display: 'block', width: '100vw', height: '100vh' }} />
+    <canvas ref={canvasRef} style={{ position: 'fixed', top: 0, left: 0, width: '100vw', height: '100vh', zIndex: 0 }} />
   );
 }
