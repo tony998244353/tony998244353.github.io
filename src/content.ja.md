@@ -6,9 +6,9 @@
 
 ## About
 
-東京都でソフトウェアエンジニアをやっている tony と申します。
+東京都でソフトウェアエンジニアをやっている tony の個人ページです。
 
-チャーチ＝チューリングのテーゼに懐疑的です。
+PC での閲覧を推奨します。
 
 ---
 
@@ -77,7 +77,7 @@
 - AtCoder Algorithm: 黄色
 - AtCoder Heuristic: 水色
 - Codeforces: Grandmaster
-- TopCoder: Marathon 黄色
+- TopCoder Marathon: 黄色
 
 ---
 
