@@ -92,4 +92,5 @@ I'm skeptical of the Church-Turing thesis.
 
 ## P.S.
 
-The same content loops infinitely below
+The same content loops infinitely below.
+
