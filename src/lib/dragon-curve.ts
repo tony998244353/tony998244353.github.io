@@ -1,4 +1,4 @@
-const COLORS = ['#c71585', '#3cb371', '#c71585', '#3cb371'];
+const COLORS = ['#1565C0', '#4CAF50', '#1565C0', '#4CAF50'];
 
 export interface DragonRenderer {
   render(zoom: number, angleOffset: number): void;
