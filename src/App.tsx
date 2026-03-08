@@ -25,8 +25,9 @@ const contentMap = Object.fromEntries(
   LANGS.map(l => [l.code, l.content.split(/\n---\n/)])
 ) as Record<Lang, string[]>;
 
-const Sections = memo(function Sections({ lang }: { lang: Lang }) {
-  const sections = contentMap[lang];
+const Sections = memo(function Sections({ lang, excludeLast }: { lang: Lang; excludeLast?: boolean }) {
+  let sections = contentMap[lang];
+  if (excludeLast) sections = sections.slice(0, -1);
   return (
     <>
       {sections.map((md, i) => (
@@ -189,7 +190,7 @@ function DesktopApp({ lang }: { lang: Lang }) {
 function MobileApp({ lang }: { lang: Lang }) {
   return (
     <div className="mobile-scroll">
-      <Sections lang={lang} />
+      <Sections lang={lang} excludeLast />
     </div>
   );
 }
