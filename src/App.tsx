@@ -123,8 +123,7 @@ function Divider() {
   );
 }
 
-export default function App() {
-  const [lang, setLang] = useState<Lang>('en');
+function DesktopApp({ lang }: { lang: Lang }) {
   const [scrollY, setScrollY] = useState(0);
   const [offset, setOffset] = useState(0);
   const virtualScrollRef = useRef(0);
@@ -162,35 +161,14 @@ export default function App() {
       dragonScrollRef.current += e.deltaY;
       update();
     };
-    let lastTouchY = 0;
-    const onTouchStart = (e: TouchEvent) => {
-      lastTouchY = e.touches[0].clientY;
-    };
-    const onTouchMove = (e: TouchEvent) => {
-      e.preventDefault();
-      const y = e.touches[0].clientY;
-      const deltaY = lastTouchY - y;
-      lastTouchY = y;
-      virtualScrollRef.current += deltaY;
-      dragonScrollRef.current += deltaY;
-      update();
-    };
     window.addEventListener('wheel', onWheel, { passive: false });
-    window.addEventListener('touchstart', onTouchStart, { passive: true });
-    window.addEventListener('touchmove', onTouchMove, { passive: false });
-    return () => {
-      window.removeEventListener('wheel', onWheel);
-      window.removeEventListener('touchstart', onTouchStart);
-      window.removeEventListener('touchmove', onTouchMove);
-    };
+    return () => window.removeEventListener('wheel', onWheel);
   }, [update]);
 
   return (
-    <div className="app">
-      {isDesktop && <DragonCurveCanvas scrollY={scrollY} />}
+    <>
+      <DragonCurveCanvas scrollY={scrollY} />
       <RingIndicator progress={offset / contentHeightRef.current} />
-      <LangToggle lang={lang} onChange={setLang} />
-
       <div className="viewport">
         <div
           className="content-track"
@@ -204,6 +182,25 @@ export default function App() {
           <Divider />
         </div>
       </div>
+    </>
+  );
+}
+
+function MobileApp({ lang }: { lang: Lang }) {
+  return (
+    <div className="mobile-scroll">
+      <Sections lang={lang} />
+    </div>
+  );
+}
+
+export default function App() {
+  const [lang, setLang] = useState<Lang>('en');
+
+  return (
+    <div className="app">
+      <LangToggle lang={lang} onChange={setLang} />
+      {isDesktop ? <DesktopApp lang={lang} /> : <MobileApp lang={lang} />}
     </div>
   );
 }

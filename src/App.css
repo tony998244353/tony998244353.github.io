@@ -194,3 +194,23 @@ body {
 .card a:hover {
   text-decoration: underline;
 }
+
+.mobile-scroll {
+  padding-bottom: 80px;
+}
+
+@media (hover: none) {
+  body {
+    background: #333;
+  }
+
+  html,
+  body {
+    overflow: auto;
+  }
+
+  .viewport {
+    height: auto;
+    overflow: visible;
+  }
+}
