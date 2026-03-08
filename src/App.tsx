@@ -156,8 +156,27 @@ export default function App() {
       dragonScrollRef.current += e.deltaY;
       update();
     };
+    let lastTouchY = 0;
+    const onTouchStart = (e: TouchEvent) => {
+      lastTouchY = e.touches[0].clientY;
+    };
+    const onTouchMove = (e: TouchEvent) => {
+      e.preventDefault();
+      const y = e.touches[0].clientY;
+      const deltaY = lastTouchY - y;
+      lastTouchY = y;
+      virtualScrollRef.current += deltaY;
+      dragonScrollRef.current += deltaY;
+      update();
+    };
     window.addEventListener('wheel', onWheel, { passive: false });
-    return () => window.removeEventListener('wheel', onWheel);
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: false });
+    return () => {
+      window.removeEventListener('wheel', onWheel);
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+    };
   }, [update]);
 
   return (
