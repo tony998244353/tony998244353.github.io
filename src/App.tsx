@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, memo } from 'react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
@@ -6,6 +6,13 @@ import { DragonCurveCanvas } from './components/DragonCurveCanvas';
 import contentEn from './content.en.md?raw';
 import contentJa from './content.ja.md?raw';
 import './App.css';
+
+const mdRemarkPlugins = [remarkGfm];
+const mdRehypePlugins = [rehypeRaw];
+const mdComponents = {
+  img: ({ node, ...props }: any) => <img className="avatar" {...props} />,
+  a: ({ node, ...props }: any) => <a target="_blank" rel="noreferrer" {...props} />,
+};
 
 const LANGS = [
   { code: 'en', label: 'EN', content: contentEn },
@@ -16,7 +23,7 @@ const contentMap = Object.fromEntries(
   LANGS.map(l => [l.code, l.content.split(/\n---\n/)])
 ) as Record<Lang, string[]>;
 
-function Sections({ lang }: { lang: Lang }) {
+const Sections = memo(function Sections({ lang }: { lang: Lang }) {
   const sections = contentMap[lang];
   return (
     <>
@@ -24,12 +31,9 @@ function Sections({ lang }: { lang: Lang }) {
         <section className="section" key={i}>
           <div className="card" style={i === 0 ? { textAlign: 'center' } : undefined}>
             <Markdown
-              remarkPlugins={[remarkGfm]}
-              rehypePlugins={[rehypeRaw]}
-              components={{
-                img: ({ node, ...props }) => <img className="avatar" {...props} />,
-                a: ({ node, ...props }) => <a target="_blank" rel="noreferrer" {...props} />,
-              }}
+              remarkPlugins={mdRemarkPlugins}
+              rehypePlugins={mdRehypePlugins}
+              components={mdComponents}
             >
               {md.trim()}
             </Markdown>
@@ -38,7 +42,7 @@ function Sections({ lang }: { lang: Lang }) {
       ))}
     </>
   );
-}
+});
 
 function LangToggle({ lang, onChange }: { lang: Lang; onChange: (l: Lang) => void }) {
   const [open, setOpen] = useState(false);
