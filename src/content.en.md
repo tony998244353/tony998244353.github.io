@@ -75,7 +75,7 @@ Best viewed on PC.
 ## Ratings
 
 - AtCoder Algorithm: Yellow
-- AtCoder Heuristic: Cyan
+- AtCoder Heuristic: Blue
 - Codeforces: Grandmaster
 - TopCoder Marathon: Yellow
 

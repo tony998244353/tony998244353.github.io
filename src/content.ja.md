@@ -75,7 +75,7 @@ PC での閲覧を推奨します。
 ## Ratings
 
 - AtCoder Algorithm: 黄色
-- AtCoder Heuristic: 水色
+- AtCoder Heuristic: 青
 - Codeforces: Grandmaster
 - TopCoder Marathon: 黄色
 
