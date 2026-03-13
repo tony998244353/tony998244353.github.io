@@ -40,7 +40,7 @@ Best viewed on PC.
 | - | - | - |
 | 2015 | 4 | Enrolled in Dept. of Electronic Control Engineering, National Institute of Technology, Gifu College |
 | 2020 | 3 | Graduated from National Institute of Technology, Gifu College (Ogiso Lab) |
-| 2020 | 4 | Transferred to Dept. of Information and Communication Engineering, The University of Tokyo |
+| 2020 | 4 | Transferred to Dept. of Information and Communication Engineering, Faculty of Engineering, The University of Tokyo |
 | 2023 | 3 | Graduated from The University of Tokyo (Taura Lab) |
 | 2023 | 4 | Enrolled in Dept. of Creative Informatics, Graduate School of Information Science and Technology, The University of Tokyo |
 | 2025 | 3 | Completed Master's program, The University of Tokyo (Taura Lab) |
