@@ -40,7 +40,7 @@ Best viewed on PC.
 | - | - | - |
 | 2015 | 4 | Enrolled in Dept. of Electronic Control Engineering, National Institute of Technology, Gifu College |
 | 2020 | 3 | Graduated from National Institute of Technology, Gifu College (Ogiso Lab) |
-| 2020 | 4 | Transferred to Dept. of Information and Communication Engineering, Faculty of Engineering, The University of Tokyo |
+| 2020 | 4 | Transferred to Dept. of Information and Communication Engineering, The University of Tokyo |
 | 2023 | 3 | Graduated from The University of Tokyo (Taura Lab) |
 | 2023 | 4 | Enrolled in Dept. of Creative Informatics, Graduate School of Information Science and Technology, The University of Tokyo |
 | 2025 | 3 | Completed Master's program, The University of Tokyo (Taura Lab) |
@@ -57,9 +57,9 @@ Best viewed on PC.
 
 ## Presentations
 
-- PPL 2023: 自己書き換え的な InfiniBand Verbs コードを生成する EDSL
-- JPS 79th Annual Meeting: 結晶構造予測のための単位胞の恣意性に不変な生成モデル
-- AI2ASE 2025 @AAAI: ContinuouSP: Generative Model for Crystal Structure Prediction with Invariance and Continuity
+- Yuji Tone, Shigeyuki Sato, and Kenjiro Taura. 自己書き換え的な InfiniBand Verbs コードを生成する EDSL. In PPL 2023, 2023.
+- Yuji Tone, Mitsuaki Kawamura, Masatoshi Hanai, Kenjiro Taura, and Toyotaro Suzumura. 結晶構造予測のための単位胞の恣意性に不変な生成モデル. In JPS 79th Annual Meeting, 2024.
+- Yuji Tone, Masatoshi Hanai, Mitsuaki Kawamura, Kenjiro Taura, and Toyotaro Suzumura. ContinuouSP: Generative Model for Crystal Structure Prediction with Invariance and Continuity, In AI2ASE 2025, 2025.
 
 ---
 

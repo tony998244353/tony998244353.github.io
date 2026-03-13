@@ -57,9 +57,9 @@ PC での閲覧を推奨します。
 
 ## Presentations
 
-- PPL 2023: 自己書き換え的な InfiniBand Verbs コードを生成する EDSL
-- 日本物理学会 第79回年次大会: 結晶構造予測のための単位胞の恣意性に不変な生成モデル
-- AI2ASE 2025 @AAAI: ContinuouSP: Generative Model for Crystal Structure Prediction with Invariance and Continuity
+- 利根悠司，佐藤重幸，田浦健次朗．自己書き換え的な InfiniBand Verbs コードを生成する EDSL．第25回プログラミングおよびプログラミング言語ワークショップ (PPL 2023)，2023年．
+- 利根悠司，河村光晶，華井雅俊，田浦健次朗，鈴村豊太郎．結晶構造予測のための単位胞の恣意性に不変な生成モデル．日本物理学会 第79回年次大会，2024年．
+- 利根悠司，華井雅俊，河村光晶，田浦健次朗，鈴村豊太郎．ContinuouSP: Generative Model for Crystal Structure Prediction with Invariance and Continuity． AI2ASE 2025，2025年．
 
 ---
 
