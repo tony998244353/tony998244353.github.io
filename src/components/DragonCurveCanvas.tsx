@@ -42,7 +42,7 @@ export function DragonCurveCanvas({ scrollY }: Props) {
 
     const renderer = createDragonRenderer(canvas);
     rendererRef.current = renderer;
-    draw(scrollY);
+    draw(scrollYRef.current);
 
     const onResize = () => {
       renderer.resize(window.innerWidth, window.innerHeight);
@@ -55,7 +55,7 @@ export function DragonCurveCanvas({ scrollY }: Props) {
       window.removeEventListener('resize', onResize);
       cancelAnimationFrame(rafRef.current);
     };
-  }, [draw, requestDraw, scrollY]);
+  }, [draw, requestDraw]);
 
   useEffect(() => {
     requestDraw();

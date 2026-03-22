@@ -9,28 +9,34 @@ export interface DragonRenderer {
 export function createDragonRenderer(canvas: HTMLCanvasElement): DragonRenderer {
   const ctx = canvas.getContext('2d')!;
 
+  // Pre-compute dragon curve geometry (baseLevel is fixed, never changes)
+  const baseLevel = 16;
+  let maxR = 0;
+  const path0 = new Path2D();
+  const path1 = new Path2D();
+  {
+    const pts0: number[] = [0, 0];
+    dragon(pts0, 0, 0, 1, 0, 1, 0, baseLevel);
+    path0.moveTo(pts0[0], pts0[1]);
+    for (let i = 2; i < pts0.length; i += 2) path0.lineTo(pts0[i], pts0[i + 1]);
+
+    const pts1: number[] = [0, 0];
+    dragon(pts1, 0, 0, 1, 0, 1, 0, baseLevel + 1);
+    path1.moveTo(pts1[0], pts1[1]);
+    for (let i = 2; i < pts1.length; i += 2) path1.lineTo(pts1[i], pts1[i + 1]);
+
+    for (let i = 0; i < pts1.length; i += 2) {
+      maxR = Math.max(maxR, Math.abs(pts1[i]), Math.abs(pts1[i + 1]));
+    }
+  }
+
   return {
     render(zoom: number, angleOffset: number) {
       const w = canvas.width, h = canvas.height;
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.fillStyle = '#000000';
       ctx.fillRect(0, 0, w, h);
 
-      // Level is fixed (zoom wraps at √2, so levelOffset is always 0)
-      const baseLevel = 16;
-
-      // Generate dragon curves for current level and next level
-      const pts0: number[] = [0, 0];
-      dragon(pts0, 0, 0, 1, 0, 1, 0, baseLevel);
-      const pts1: number[] = [0, 0];
-      dragon(pts1, 0, 0, 1, 0, 1, 0, baseLevel + 1);
-
-      // Compute max extent (symmetric for all rotations)
-      let maxR = 0;
-      for (let i = 0; i < pts1.length; i += 2) {
-        maxR = Math.max(maxR, Math.abs(pts1[i]), Math.abs(pts1[i + 1]));
-      }
-
-      // Auto-fit to canvas with (0,0) at center
       const margin = 40;
       const s = Math.min(w / 2 - margin, h / 2 - margin) / (maxR || 1) * 8 * zoom;
       const cx = w / 2, cy = h / 2;
@@ -38,23 +44,19 @@ export function createDragonRenderer(canvas: HTMLCanvasElement): DragonRenderer 
 
       // Crossfade between levels
       const t = Math.log2(zoom) * 2; // [0, 1)
-      const layers: [number[], number][] = [[pts0, Math.cos(t * Math.PI / 2)], [pts1, Math.sin(t * Math.PI / 2)]];
-      for (const [pts, alpha] of layers) {
+      const layers: [Path2D, number][] = [[path0, Math.cos(t * Math.PI / 2)], [path1, Math.sin(t * Math.PI / 2)]];
+      for (const [path, alpha] of layers) {
         ctx.globalAlpha = alpha;
-        ctx.lineWidth = 3;
+        ctx.lineWidth = 3 / s;
         for (let rot = 0; rot < 4; rot++) {
           const a = rot * Math.PI / 2 + baseAngle;
-          const c = Math.cos(a), sn = Math.sin(a);
+          const cos_a = Math.cos(a), sin_a = Math.sin(a);
+          ctx.setTransform(cos_a * s, sin_a * s, -sin_a * s, cos_a * s, cx, cy);
           ctx.strokeStyle = COLORS[rot];
-          ctx.beginPath();
-          ctx.moveTo(pts[0] * c * s - pts[1] * sn * s + cx, pts[0] * sn * s + pts[1] * c * s + cy);
-          for (let i = 2; i < pts.length; i += 2) {
-            const x = pts[i], y = pts[i + 1];
-            ctx.lineTo(x * c * s - y * sn * s + cx, x * sn * s + y * c * s + cy);
-          }
-          ctx.stroke();
+          ctx.stroke(path);
         }
       }
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
       ctx.globalAlpha = 1;
     },
 
